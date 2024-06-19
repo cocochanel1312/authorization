@@ -1,36 +1,32 @@
-import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
 import { auth } from "../../firebase"
+import { signInWithEmailAndPassword } from "firebase/auth"
 
-const SingUp = () => {
+const SingIn = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [copyPasswort, setCopyPassword] = useState("")
   const [error, setError] = useState("")
 
-  function register(event: any) {
+  function logIn(event: any) {
     event.preventDefault()
-    if (copyPasswort !== password) {
-      setError("Повторите пароль правильно")
-      return // делается это для того, что функция дальше не шла и не создавался аккаунт
-    }
-    createUserWithEmailAndPassword(auth, email, password)
+
+    signInWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
         setError("")
         setEmail("")
         setPassword("")
-        setCopyPassword("")
       })
       .catch(error => {
         console.log(error.message)
+        setError("Извините, мы не нашли ваш аккаунт")
       })
   }
 
   return (
     <div>
-      <form onSubmit={register}>
-        <h2>Create an account</h2>
+      <form>
+        <h2>Log in</h2>
         <input
           placeholder="Введите email"
           value={email}
@@ -43,17 +39,11 @@ const SingUp = () => {
           onChange={event => setPassword(event.target.value)}
           type="password"
         />
-        <input
-          placeholder="Повторите пароль"
-          value={copyPasswort}
-          onChange={event => setCopyPassword(event.target.value)}
-          type="password"
-        />
-        <button>Create</button>
+        <button onClick={logIn}>Log in</button>
         {error ? <p style={{ color: "red" }}>{error}</p> : ""}
       </form>
     </div>
   )
 }
 
-export default SingUp
+export default SingIn
