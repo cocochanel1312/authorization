@@ -1,16 +1,23 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
 import { auth } from "../../firebase"
+import { Button, Form, Input } from "antd"
+import Styled from "./SignUp.styles"
 
-const SingUp = () => {
+type TSingUp = {
+  email?: string
+  password?: string
+  copyPasswort?: string
+}
+
+const SingUp: React.FC<TSingUp> = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [copyPasswort, setCopyPassword] = useState("")
+  const [repeatPassword, setRepeatPassword] = useState("")
   const [error, setError] = useState("")
 
-  function register(event: any) {
-    event.preventDefault()
-    if (copyPasswort !== password) {
+  function register() {
+    if (repeatPassword !== password) {
       setError("Повторите пароль правильно")
       return // делается это для того, что функция дальше не шла и не создавался аккаунт
     }
@@ -20,7 +27,8 @@ const SingUp = () => {
         setError("")
         setEmail("")
         setPassword("")
-        setCopyPassword("")
+        setRepeatPassword("")
+        console.log("Прошло успешно")
       })
       .catch(error => {
         console.log(error.message)
@@ -28,31 +36,84 @@ const SingUp = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={register}>
-        <h2>Create an account</h2>
-        <input
-          placeholder="Введите email"
-          value={email}
-          onChange={event => setEmail(event.target.value)}
-          type="email"
-        />
-        <input
-          placeholder="Введите пароль"
-          value={password}
-          onChange={event => setPassword(event.target.value)}
-          type="password"
-        />
-        <input
-          placeholder="Повторите пароль"
-          value={copyPasswort}
-          onChange={event => setCopyPassword(event.target.value)}
-          type="password"
-        />
-        <button>Create</button>
-        {error ? <p style={{ color: "red" }}>{error}</p> : ""}
-      </form>
-    </div>
+    <Styled.FormWrapper mode={"white"}>
+      <Form
+        name="basic"
+        labelCol={{
+          span: 8,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+        style={{
+          maxWidth: 600,
+        }}
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={register}
+        autoComplete="off"
+        onValuesChange={(
+          changedValues,
+          { email, password, repeatPassword },
+        ) => {
+          setEmail(email.target?.value)
+          setPassword(password.target?.value)
+          setRepeatPassword(repeatPassword.target?.value)
+        }}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your email!",
+            },
+          ]}
+          valuePropName="email"
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+          valuePropName="password"
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="Return Password"
+          name="repeatPassword"
+          rules={[
+            {
+              required: true,
+              message: "Please return your password!",
+            },
+          ]}
+          valuePropName="repeatPassword"
+        >
+          <Input.Password />
+        </Form.Item>
+
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Styled.SignUpButton type="primary" htmlType="submit">
+            Submit
+          </Styled.SignUpButton>
+        </Form.Item>
+      </Form>
+    </Styled.FormWrapper>
   )
 }
 
