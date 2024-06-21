@@ -1,42 +1,36 @@
-import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
-import { auth } from "../../firebase"
-import { Button, Form, Input } from "antd"
-import Styled from "./SignUp.styles"
+import { auth } from "../../../firebase"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { Button, Checkbox, Form, Input } from "antd"
+import Styled from "./SignIn.styles"
 
-type TSingUp = {
-  email?: string
+type TFieldType = {
+  username?: string
   password?: string
-  copyPasswort?: string
+  remember?: string
 }
 
-const SingUp: React.FC<TSingUp> = () => {
+const SingIn: React.FC<TFieldType> = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [repeatPassword, setRepeatPassword] = useState("")
   const [error, setError] = useState("")
 
-  function register() {
-    if (repeatPassword !== password) {
-      setError("Повторите пароль правильно")
-      return // делается это для того, что функция дальше не шла и не создавался аккаунт
-    }
-    createUserWithEmailAndPassword(auth, email, password)
+  function logIn() {
+    signInWithEmailAndPassword(auth, email, password)
       .then(user => {
         console.log(user)
         setError("")
         setEmail("")
         setPassword("")
-        setRepeatPassword("")
-        console.log("Прошло успешно")
       })
       .catch(error => {
         console.log(error.message)
+        setError("Извините, мы не нашли ваш аккаунт")
       })
   }
 
   return (
-    <Styled.FormWrapper mode={"white"}>
+    <Styled.FormWrapper>
       <Form
         name="basic"
         labelCol={{
@@ -51,15 +45,11 @@ const SingUp: React.FC<TSingUp> = () => {
         initialValues={{
           remember: true,
         }}
-        onFinish={register}
+        onFinish={logIn}
         autoComplete="off"
-        onValuesChange={(
-          changedValues,
-          { email, password, repeatPassword },
-        ) => {
+        onValuesChange={(changedValues, { email, password }) => {
           setEmail(email.target?.value)
           setPassword(password.target?.value)
-          setRepeatPassword(repeatPassword.target?.value)
         }}
       >
         <Form.Item
@@ -89,32 +79,28 @@ const SingUp: React.FC<TSingUp> = () => {
           <Input.Password />
         </Form.Item>
         <Form.Item
-          label="Return Password"
-          name="repeatPassword"
-          rules={[
-            {
-              required: true,
-              message: "Please return your password!",
-            },
-          ]}
-          valuePropName="repeatPassword"
+          name="remember"
+          valuePropName="checked"
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
         >
-          <Input.Password />
+          <Checkbox>Remember me</Checkbox>
         </Form.Item>
-
         <Form.Item
           wrapperCol={{
             offset: 8,
             span: 16,
           }}
         >
-          <Styled.SignUpButton type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit">
             Submit
-          </Styled.SignUpButton>
+          </Button>
         </Form.Item>
       </Form>
     </Styled.FormWrapper>
   )
 }
 
-export default SingUp
+export default SingIn

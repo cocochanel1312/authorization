@@ -1,7 +1,7 @@
 import "./App.css"
-import AuthDetails from "./components/auth/AuthDetails"
-import SingIn from "./components/auth/SingIn"
-import SingUp from "./components/auth/SingUp"
+import AuthDetails from "./components/auth/AuthDetails/AuthDetails"
+import SingIn from "./components/auth/SingIn/SingIn"
+import SingUp from "./components/auth/SingUp/SingUp"
 
 const App = () => {
   return (
