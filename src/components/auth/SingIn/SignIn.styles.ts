@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 const FormWrapper = styled.div<{ mode?: string }>`
-  margin-left: 30%;
+  margin-left: 29%;
   margin-top: 30px;
 `
 

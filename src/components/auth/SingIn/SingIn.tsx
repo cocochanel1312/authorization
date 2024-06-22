@@ -2,6 +2,8 @@ import { useState } from "react"
 import { auth } from "../../../firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { Button, Checkbox, Form, Input } from "antd"
+import { Link } from "react-router-dom"
+
 import Styled from "./SignIn.styles"
 
 type TFieldType = {
@@ -79,16 +81,6 @@ const SingIn: React.FC<TFieldType> = () => {
           <Input.Password />
         </Form.Item>
         <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        <Form.Item
           wrapperCol={{
             offset: 8,
             span: 16,
@@ -98,6 +90,18 @@ const SingIn: React.FC<TFieldType> = () => {
             Submit
           </Button>
         </Form.Item>
+        <Link to="/SingUp">
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" danger>
+              Create Account
+            </Button>
+          </Form.Item>
+        </Link>
       </Form>
     </Styled.FormWrapper>
   )

@@ -1,16 +1,17 @@
-import { Button } from "antd"
+
 import styled from "styled-components"
 
 const FormWrapper = styled.div<{ mode?: string }>`
-  margin-left: 30%;
+  margin-left: 29%;
   margin-top: 30px;
 `
-const SignUpButton = styled(Button)`
-  background-color: red;
+
+const FormButton = styled.button`
+  
 `
 
 const Wrapper = styled.img``
 
-const StyledSignUp = { FormWrapper, Wrapper, SignUpButton }
+const StyledSignUp = { FormWrapper, Wrapper }
 
 export default StyledSignUp

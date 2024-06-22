@@ -2,6 +2,8 @@ import { onAuthStateChanged, signOut } from "firebase/auth"
 import { useState } from "react"
 import { useEffect } from "react"
 import { auth } from "../../../firebase"
+import { Button, Flex } from "antd"
+import Styled from "./AuthDetails.styled"
 
 const AuthDetails = () => {
   const [authUser, setAuthUser] = useState<any>(null)
@@ -24,16 +26,20 @@ const AuthDetails = () => {
       .catch(error => console.log(error))
   }
   return (
-    <div>
-      {authUser ? (
-        <div>
-          <p>{`Signed in as ${authUser.email}`}</p>
-          <button onClick={userSignOut}>Sign Out</button>
-        </div>
-      ) : (
-        <p>Signed Out</p>
-      )}
-    </div>
+    <Styled.FlexWrapper>
+      <Flex>
+        {authUser ? (
+          <div>
+            <p>{`Signed in as ${authUser.email}`}</p>
+            <Button type="primary" onClick={userSignOut}>
+              Sign Out
+            </Button>
+          </div>
+        ) : (
+          <p>Signed Out</p>
+        )}
+      </Flex>
+    </Styled.FlexWrapper>
   )
 }
 

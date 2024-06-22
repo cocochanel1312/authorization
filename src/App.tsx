@@ -1,14 +1,17 @@
 import "./App.css"
-import AuthDetails from "./components/auth/AuthDetails/AuthDetails"
+import { Route, Routes } from "react-router-dom"
 import SingIn from "./components/auth/SingIn/SingIn"
 import SingUp from "./components/auth/SingUp/SingUp"
+import AuthDetails from "./components/auth/AuthDetails/AuthDetails"
 
 const App = () => {
   return (
     <div className="App">
-      <SingUp />
-      <SingIn />
-      <AuthDetails />
+      <Routes>
+        <Route path="/" element={<SingIn />} />
+        <Route path="/SingUp" element={<SingUp />} />
+        <Route path="/Auth" element={<AuthDetails />} />
+      </Routes>
     </div>
   )
 }

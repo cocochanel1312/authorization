@@ -1,7 +1,9 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useState } from "react"
 import { auth } from "../../../firebase"
-import { Button, Form, Input } from "antd"
+import { Button, Form, Input, Spin } from "antd"
+import { Link } from "react-router-dom"
+
 import Styled from "./SignUp.styles"
 
 type TSingUp = {
@@ -15,24 +17,31 @@ const SingUp: React.FC<TSingUp> = () => {
   const [password, setPassword] = useState("")
   const [repeatPassword, setRepeatPassword] = useState("")
   const [error, setError] = useState("")
+  const [isFetching, setIsFetching] = useState(true)
 
   function register() {
     if (repeatPassword !== password) {
       setError("Повторите пароль правильно")
       return // делается это для того, что функция дальше не шла и не создавался аккаунт
     }
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(user => {
-        console.log(user)
-        setError("")
-        setEmail("")
-        setPassword("")
-        setRepeatPassword("")
-        console.log("Прошло успешно")
-      })
-      .catch(error => {
-        console.log(error.message)
-      })
+
+    if (isFetching) {
+      setIsFetching(false)
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(user => {
+          console.log(user)
+          setError("")
+          setEmail("")
+          setPassword("")
+          setRepeatPassword("")
+          setIsFetching(true)
+          console.log(isFetching)
+          alert("Регистрация прошла успешно")
+        })
+        .catch(error => {
+          console.log(error.message)
+        })
+    }
   }
 
   return (
@@ -101,17 +110,28 @@ const SingUp: React.FC<TSingUp> = () => {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item
           wrapperCol={{
             offset: 8,
             span: 16,
           }}
         >
-          <Styled.SignUpButton type="primary" htmlType="submit">
-            Registration
-          </Styled.SignUpButton>
+          <Button type="primary" htmlType="submit">
+            {isFetching ? "Registration" : <Spin />}
+          </Button>
         </Form.Item>
+        <Link to="/">
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Log In
+            </Button>
+          </Form.Item>
+        </Link>
       </Form>
     </Styled.FormWrapper>
   )
