@@ -3,38 +3,42 @@ import { useState } from "react"
 import { auth } from "../../../firebase"
 import { Button, Form, Input, Spin } from "antd"
 import { Link } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 
 import Styled from "./SignUp.styles"
 
-type TSingUp = {
-  email?: string
-  password?: string
-  copyPasswort?: string
-}
+import {
+  setEmail,
+  setPassword,
+  setRepeatPassword,
+  setError,
+  setIsFetching,
+} from "../../../app/slices/signUpSlice"
 
-const SingUp: React.FC<TSingUp> = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [repeatPassword, setRepeatPassword] = useState("")
-  const [error, setError] = useState("")
-  const [isFetching, setIsFetching] = useState(true)
+
+
+const SingUp: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const { email, password, repeatPassword, isFetching } = useAppSelector(
+    state => state.signUp,
+  )
 
   function register() {
     if (repeatPassword !== password) {
-      setError("Повторите пароль правильно")
+      dispatch(setError("Повторите пароль правильно"))
       return // делается это для того, что функция дальше не шла и не создавался аккаунт
     }
 
     if (isFetching) {
-      setIsFetching(false)
+      dispatch(setIsFetching(false))
       createUserWithEmailAndPassword(auth, email, password)
         .then(user => {
           console.log(user)
-          setError("")
-          setEmail("")
-          setPassword("")
-          setRepeatPassword("")
-          setIsFetching(true)
+          dispatch(setError(""))
+          dispatch(setEmail(""))
+          dispatch(setPassword(""))
+          dispatch(setRepeatPassword(""))
+          dispatch(setIsFetching(true))
           console.log(isFetching)
           alert("Регистрация прошла успешно")
         })
@@ -66,9 +70,9 @@ const SingUp: React.FC<TSingUp> = () => {
           changedValues,
           { email, password, repeatPassword },
         ) => {
-          setEmail(email.target?.value)
-          setPassword(password.target?.value)
-          setRepeatPassword(repeatPassword.target?.value)
+          dispatch(setEmail(email.target?.value))
+          dispatch(setPassword(password.target?.value))
+          dispatch(setRepeatPassword(repeatPassword.target?.value))
         }}
       >
         <Form.Item

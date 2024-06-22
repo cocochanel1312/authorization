@@ -16,19 +16,22 @@ const SingIn: React.FC<TFieldType> = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [rightData, setRightData] = useState(false)
 
   function logIn() {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(user => {
-        console.log(user)
-        setError("")
-        setEmail("")
-        setPassword("")
-      })
-      .catch(error => {
-        console.log(error.message)
-        setError("Извините, мы не нашли ваш аккаунт")
-      })
+    if (!rightData)
+      signInWithEmailAndPassword(auth, email, password)
+        .then(user => {
+          console.log(user)
+          setError("")
+          setEmail("")
+          setPassword("")
+          setRightData(true)
+        })
+        .catch(error => {
+          console.log(error.message)
+          setError("Извините, мы не нашли ваш аккаунт")
+        })
   }
 
   return (
@@ -86,9 +89,17 @@ const SingIn: React.FC<TFieldType> = () => {
             span: 16,
           }}
         >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+          {rightData ? (
+            <Link to="/Auth">
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Link>
+          ) : (
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          )}
         </Form.Item>
         <Link to="/SingUp">
           <Form.Item

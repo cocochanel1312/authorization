@@ -1,9 +1,10 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { configureStore } from "@reduxjs/toolkit"
+import signUp from "./slices/signUpSlice"
 
 export const store = configureStore({
   reducer: {
-    //
+    signUp,
   },
 })
 
