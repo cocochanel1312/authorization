@@ -1,7 +1,6 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import { useState } from "react"
 import { auth } from "../../../firebase"
-import { Button, Form, Input, Spin } from "antd"
+import { Button, Form, Input, Spin, message } from "antd"
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 
@@ -15,37 +14,38 @@ import {
   setIsFetching,
 } from "../../../app/slices/signUpSlice"
 
-
-
 const SingUp: React.FC = () => {
   const dispatch = useAppDispatch()
-  const { email, password, repeatPassword, isFetching } = useAppSelector(
+  const { email, password, repeatPassword, isFetching, error } = useAppSelector(
     state => state.signUp,
   )
 
   function register() {
     if (repeatPassword !== password) {
       dispatch(setError("Повторите пароль правильно"))
+      alert(error)
       return // делается это для того, что функция дальше не шла и не создавался аккаунт
     }
 
-    if (isFetching) {
-      dispatch(setIsFetching(false))
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(user => {
-          console.log(user)
-          dispatch(setError(""))
-          dispatch(setEmail(""))
-          dispatch(setPassword(""))
-          dispatch(setRepeatPassword(""))
-          dispatch(setIsFetching(true))
-          console.log(isFetching)
-          alert("Регистрация прошла успешно")
-        })
-        .catch(error => {
-          console.log(error.message)
-        })
-    }
+    // if (!email.includes("gmail.com")) {
+    //   dispatch(setError("Используйте @gmail.com почту"))
+    //   return
+    // }
+
+    dispatch(setIsFetching(true))
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(user => {
+        console.log(user)
+        dispatch(setError(""))
+        dispatch(setEmail(""))
+        dispatch(setPassword(""))
+        dispatch(setRepeatPassword(""))
+        dispatch(setIsFetching(false))
+        alert("Регистрация прошла успешно")
+      })
+      .catch(error => {
+        console.log(error.message)
+      })
   }
 
   return (
@@ -61,32 +61,28 @@ const SingUp: React.FC = () => {
         style={{
           maxWidth: 600,
         }}
-        initialValues={{
-          remember: true,
-        }}
         onFinish={register}
         autoComplete="off"
-        onValuesChange={(
-          changedValues,
-          { email, password, repeatPassword },
-        ) => {
-          dispatch(setEmail(email.target?.value))
-          dispatch(setPassword(password.target?.value))
-          dispatch(setRepeatPassword(repeatPassword.target?.value))
-        }}
       >
+        <Styled.FormH1>Create Account</Styled.FormH1>
         <Form.Item
           label="Email"
           name="email"
           rules={[
             {
+              type: "email",
+              message: "The input is not valid E-mail!",
+            },
+            {
               required: true,
               message: "Please input your email!",
             },
           ]}
-          valuePropName="email"
         >
-          <Input />
+          <Input
+            value={email}
+            onChange={e => dispatch(setEmail(e.target.value))}
+          />
         </Form.Item>
         <Form.Item
           label="Password"
@@ -97,22 +93,26 @@ const SingUp: React.FC = () => {
               message: "Please input your password!",
             },
           ]}
-          valuePropName="password"
         >
-          <Input.Password />
+          <Input.Password
+            value={password}
+            onChange={e => dispatch(setPassword(e.target.value))}
+          />
         </Form.Item>
         <Form.Item
-          label="Return Password"
-          name="repeatPassword"
+          label="Repeat Password"
+          name="repeatpassword"
           rules={[
             {
               required: true,
-              message: "Please return your password!",
+              message: "Please repeat your password!",
             },
           ]}
-          valuePropName="repeatPassword"
         >
-          <Input.Password />
+          <Input.Password
+            value={repeatPassword}
+            onChange={e => dispatch(setRepeatPassword(e.target.value))}
+          />
         </Form.Item>
         <Form.Item
           wrapperCol={{
@@ -121,10 +121,10 @@ const SingUp: React.FC = () => {
           }}
         >
           <Button type="primary" htmlType="submit">
-            {isFetching ? "Registration" : <Spin />}
+            {isFetching ? <Spin /> : "Registration"}
           </Button>
         </Form.Item>
-        <Link to="/">
+        <Link to="/login">
           <Form.Item
             wrapperCol={{
               offset: 8,

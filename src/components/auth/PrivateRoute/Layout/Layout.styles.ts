@@ -5,6 +5,6 @@ const FlexWrapper = styled.div`
   margin-left: 43.5%;
 `
 
-const StyledAuthDetails = { FlexWrapper }
+const StyledLayout = { FlexWrapper }
 
-export default StyledAuthDetails
+export default StyledLayout

@@ -5,6 +5,9 @@ const FormWrapper = styled.div<{ mode?: string }>`
   margin-top: 30px;
 `
 
-const StyledSingIn = { FormWrapper }
+const FormH = styled.h1 `
+  margin-left: 29%;
+`
+const StyledSingIn = { FormWrapper, FormH }
 
 export default StyledSingIn

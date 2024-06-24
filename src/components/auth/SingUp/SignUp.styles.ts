@@ -6,12 +6,12 @@ const FormWrapper = styled.div<{ mode?: string }>`
   margin-top: 30px;
 `
 
-const FormButton = styled.button`
-  
+const FormH1 = styled.h1 `
+  margin-left: 29%;
 `
 
 const Wrapper = styled.img``
 
-const StyledSignUp = { FormWrapper, Wrapper }
+const StyledSignUp = { FormWrapper, FormH1 }
 
 export default StyledSignUp

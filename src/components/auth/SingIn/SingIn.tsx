@@ -16,17 +16,17 @@ const SingIn: React.FC<TFieldType> = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
-  const [rightData, setRightData] = useState(false)
+  const [authorized, setAuthorized] = useState(false)
 
   function logIn() {
-    if (!rightData)
+    if (!authorized)
       signInWithEmailAndPassword(auth, email, password)
         .then(user => {
           console.log(user)
           setError("")
           setEmail("")
           setPassword("")
-          setRightData(true)
+          setAuthorized(true)
         })
         .catch(error => {
           console.log(error.message)
@@ -57,6 +57,7 @@ const SingIn: React.FC<TFieldType> = () => {
           setPassword(password.target?.value)
         }}
       >
+        <Styled.FormH>Sign In</Styled.FormH>
         <Form.Item
           label="Email"
           name="email"
@@ -89,8 +90,8 @@ const SingIn: React.FC<TFieldType> = () => {
             span: 16,
           }}
         >
-          {rightData ? (
-            <Link to="/Auth">
+          {authorized ? (
+            <Link to="/">
               <Button type="primary" htmlType="submit">
                 Submit
               </Button>

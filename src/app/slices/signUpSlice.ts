@@ -16,7 +16,7 @@ const initialState: InitialStateSignUpSlice = {
   password: "",
   repeatPassword: "",
   error: "",
-  isFetching: true,
+  isFetching: false,
 }
 
 export const signUpSlice = createSlice({

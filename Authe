@@ -1,11 +1,12 @@
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { useState } from "react"
 import { useEffect } from "react"
-import { auth } from "../../../firebase"
+import { auth } from "../../../../firebase"
 import { Button, Flex } from "antd"
-import Styled from "./AuthDetails.styled"
 
-const AuthDetails = () => {
+import Styled from "./Layout.styles"
+
+const Layout = () => {
   const [authUser, setAuthUser] = useState<any>(null)
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user: any) => {
@@ -26,6 +27,8 @@ const AuthDetails = () => {
       .catch(error => console.log(error))
   }
   return (
+
+
     <Styled.FlexWrapper>
       <Flex>
         {authUser ? (
@@ -43,4 +46,4 @@ const AuthDetails = () => {
   )
 }
 
-export default AuthDetails
+export default Layout

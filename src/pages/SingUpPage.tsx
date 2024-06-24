@@ -1,4 +1,3 @@
-
 import SingUp from "../components/auth/SingUp/SingUp"
 
 const SingUpPage = () => {
