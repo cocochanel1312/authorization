@@ -1,6 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth"
 import { useState } from "react"
-import { auth } from "../../../firebase"
+import { auth } from "../../firebase"
 import { Navigate, Outlet } from "react-router-dom"
 
 const PrivateRoute = () => {
@@ -9,7 +9,7 @@ const PrivateRoute = () => {
   // return (
   //   isAuthorized ? <Outlet /> : <Navigate to="/login" />
   // )
-  return null
+  return <Outlet />
 }
 export default PrivateRoute
 

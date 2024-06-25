@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { auth } from "../../../firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
-import { Button, Checkbox, Form, Input } from "antd"
+import { Button, Form, Input } from "antd"
 import { Link } from "react-router-dom"
 
 import Styled from "./SignIn.styles"

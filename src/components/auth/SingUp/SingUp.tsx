@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../../firebase"
-import { Button, Form, Input, Spin, message } from "antd"
+import { Button, Form, Input, Spin } from "antd"
 import { Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 
@@ -26,11 +26,6 @@ const SingUp: React.FC = () => {
       alert(error)
       return // делается это для того, что функция дальше не шла и не создавался аккаунт
     }
-
-    // if (!email.includes("gmail.com")) {
-    //   dispatch(setError("Используйте @gmail.com почту"))
-    //   return
-    // }
 
     dispatch(setIsFetching(true))
     createUserWithEmailAndPassword(auth, email, password)
