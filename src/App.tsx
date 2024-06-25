@@ -14,7 +14,7 @@ const App = () => {
         <Route path="/SingUp" element={<SingUpPage />} />
         <Route path="/" element={<PrivateRoute />}>
           <Route path="/" element={<Layout />}>
-            <Route path="/table" element={<TablePage />} />
+            <Route path="/" element={<TablePage />} />
           </Route>
         </Route>
       </Routes>

@@ -1,16 +1,11 @@
-import { onAuthStateChanged } from "firebase/auth"
-import { useState } from "react"
-import { auth } from "../../firebase"
 import { Navigate, Outlet } from "react-router-dom"
+import { useAppSelector } from "../../app/hooks"
 
 const PrivateRoute = () => {
-  // const isAuthorized =
+  const isAuthorized = useAppSelector(state => state.signIn.authorized)
 
-  // return (
-  //   isAuthorized ? <Outlet /> : <Navigate to="/login" />
-  // )
-  return <Outlet />
+  return isAuthorized ? <Outlet /> : <Navigate to="/login" />
 }
 export default PrivateRoute
 
-// взять selector из signInSlice
+

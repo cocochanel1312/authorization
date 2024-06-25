@@ -1,36 +1,37 @@
-import { useState } from "react"
 import { auth } from "../../../firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { Button, Form, Input } from "antd"
 import { Link } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 
 import Styled from "./SignIn.styles"
 
-type TFieldType = {
-  username?: string
-  password?: string
-  remember?: string
-}
+import {
+  setEmail,
+  setPassword,
+  setError,
+  setAuthorized,
+} from "../../../app/slices/signInSlice"
 
-const SingIn: React.FC<TFieldType> = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [authorized, setAuthorized] = useState(false)
+const SingIn: React.FC = () => {
+  const dispatch = useAppDispatch()
+  const { email, password, error, authorized } = useAppSelector(
+    state => state.signIn,
+  )
 
   function logIn() {
     if (!authorized)
       signInWithEmailAndPassword(auth, email, password)
         .then(user => {
           console.log(user)
-          setError("")
-          setEmail("")
-          setPassword("")
-          setAuthorized(true)
+          dispatch(setError(""))
+          dispatch(setEmail(""))
+          dispatch(setPassword(""))
+          dispatch(setAuthorized(true))
         })
         .catch(error => {
           console.log(error.message)
-          setError("Извините, мы не нашли ваш аккаунт")
+          dispatch(setError("Извините, мы не нашли ваш аккаунт"))
         })
   }
 
@@ -53,8 +54,8 @@ const SingIn: React.FC<TFieldType> = () => {
         onFinish={logIn}
         autoComplete="off"
         onValuesChange={(changedValues, { email, password }) => {
-          setEmail(email.target?.value)
-          setPassword(password.target?.value)
+          dispatch(setEmail(email.target?.value))
+          dispatch(setPassword(password.target?.value))
         }}
       >
         <Styled.FormH>Sign In</Styled.FormH>

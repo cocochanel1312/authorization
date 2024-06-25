@@ -1,7 +1,13 @@
-
+import { Outlet } from "react-router-dom"
+import Sidebar from "../afterAuth/Sidebar/Sidebar"
 
 export const Layout = () => {
-  return <div>Layout</div>
+  return (
+    <>
+      <Sidebar />
+      <Outlet />
+    </>
+  )
 }
 
 export default Layout
