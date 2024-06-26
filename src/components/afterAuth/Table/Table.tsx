@@ -1,5 +1,5 @@
 export const Table = () => {
-  return <h1>Таблица</h1>
+  return <div>Таблица</div>
 }
 
 export default Table

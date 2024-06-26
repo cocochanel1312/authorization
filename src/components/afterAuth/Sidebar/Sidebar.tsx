@@ -1,48 +1,62 @@
-import React from "react"
 import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
+  SettingOutlined,
+  TableOutlined,
+  GithubOutlined,
+  MessageOutlined,
+  SafetyCertificateOutlined,
 } from "@ant-design/icons"
-import { Layout, Menu } from "antd"
+import { Menu } from "antd"
+import type { GetProp, MenuProps } from "antd"
+import { Link } from "react-router-dom"
 
-import Styled from "./Sidebar.styles"
+type MenuItem = GetProp<MenuProps, "items">[number]
 
-const { Sider } = Layout
-
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}))
+const items: MenuItem[] = [
+  {
+    key: "1",
+    icon: <TableOutlined />,
+    label: <Link to="/table">Table</Link>,
+  },
+  {
+    key: "2",
+    icon: <SafetyCertificateOutlined />,
+    label: <Link to="/navigationtest">NavigationTest</Link>,
+  },
+  {
+    key: "3",
+    icon: <MessageOutlined />,
+    label: <Link to="/messages">Messages</Link>,
+  },
+  {
+    key: "4",
+    icon: <SettingOutlined />,
+    label: <Link to="/settings">Settings</Link>,
+  },
+  {
+    key: "link",
+    icon: <GithubOutlined />,
+    label: (
+      <a
+        href="https://github.com/cocochanel1312"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Git
+      </a>
+    ),
+  },
+]
 
 const Sidebar: React.FC = () => {
   return (
-    <Layout>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={broken => {
-          console.log(broken)
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type)
-        }}
-      >
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={items}
-        />
-      </Sider>
-    </Layout>
+    <>
+      <Menu
+        style={{ width: 256 }}
+        defaultSelectedKeys={["1"]}
+        defaultOpenKeys={["sub1"]}
+        items={items}
+      />
+    </>
   )
 }
 
