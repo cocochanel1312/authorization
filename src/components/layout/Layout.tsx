@@ -3,7 +3,7 @@ import Sidebar from "../afterAuth/Sidebar/Sidebar"
 
 export const Layout = () => {
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <Sidebar />
       <Outlet />
     </div>

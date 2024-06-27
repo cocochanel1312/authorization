@@ -53,10 +53,6 @@ const SingIn: React.FC = () => {
         }}
         onFinish={logIn}
         autoComplete="off"
-        onValuesChange={(changedValues, { email, password }) => {
-          dispatch(setEmail(email.target?.value))
-          dispatch(setPassword(password.target?.value))
-        }}
       >
         <Styled.FormH>Sign In</Styled.FormH>
         <Form.Item
@@ -70,7 +66,10 @@ const SingIn: React.FC = () => {
           ]}
           valuePropName="email"
         >
-          <Input />
+          <Input
+            value={email}
+            onChange={e => dispatch(setEmail(e.target.value))}
+          />
         </Form.Item>
         <Form.Item
           label="Password"
@@ -83,7 +82,10 @@ const SingIn: React.FC = () => {
           ]}
           valuePropName="password"
         >
-          <Input.Password />
+          <Input.Password
+            value={password}
+            onChange={e => dispatch(setPassword(e.target.value))}
+          />
         </Form.Item>
         <Form.Item
           wrapperCol={{
