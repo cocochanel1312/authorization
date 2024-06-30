@@ -16,7 +16,7 @@ export const fetchTable = createAsyncThunk(
   "table/fetchTableStatus",
   async () => {
     const response = await axios.get<ITableSliceItems[]>(
-      "https://fakestoreapi.com/products",
+      "-https://fakestoreapi.com/products",
     )
     return response.data
   },
