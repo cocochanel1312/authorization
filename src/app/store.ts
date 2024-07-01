@@ -3,12 +3,14 @@ import { configureStore } from "@reduxjs/toolkit"
 import signUp from "./slices/signUpSlice"
 import signIn from "./slices/signInSlice"
 import table from "./slices/tableSlice"
+import filter from "./slices/filterSlice"
 
 export const store = configureStore({
   reducer: {
     signUp,
     signIn,
     table,
+    filter,
   },
 })
 
