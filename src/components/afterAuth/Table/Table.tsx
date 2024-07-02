@@ -86,16 +86,12 @@ const TableSettings: React.FC<ITableSliceItems> = () => {
   }
 
   const fetchTableItems = async () => {
-    const search = searchValue ? `title=${searchValue}` : " ";
-    dispatch(fetchTable({ search }))
+    dispatch(fetchTable())
   }
 
   useEffect(() => {
-    if (!isSearch.current) {
-      fetchTableItems()
-    }
-    isSearch.current = false
-  }, [searchValue])
+    fetchTableItems()
+  }, [])
 
   if (fetchStatus === TableFetchStatusEnum.ERROR) {
     return <NoDataPlug />

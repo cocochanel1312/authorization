@@ -21,10 +21,9 @@ interface IParamsType {
 
 export const fetchTable = createAsyncThunk(
   "table/fetchTableStatus",
-  async (params: IParamsType) => {
-    const search = params
+  async () => {
     const { data } = await axios.get<ITableSliceItems[]>(
-      `https://fakestoreapi.com/products?${search}`,
+      `https://fakestoreapi.com/products?`,
     )
     return data
   },
@@ -38,12 +37,14 @@ export enum TableFetchStatusEnum {
 
 interface InitialStateTableSlice {
   items: ITableSliceItems[]
+  displayedItems: ITableSliceItems[]
   status: TableFetchStatusEnum
   pagination: TablePaginationConfig
 }
 
 const initialState: InitialStateTableSlice = {
   items: [],
+  displayedItems: [],
   status: TableFetchStatusEnum.LOADING,
   pagination: {
     defaultCurrent: 1,
@@ -56,7 +57,31 @@ const tableSlice = createSlice({
   initialState,
   reducers: {
     removeItem(state, action: PayloadAction<number>) {
-      state.items = state.items.filter(obj => obj.id !== action.payload)
+      state.displayedItems = state.displayedItems.filter(
+        obj => obj.id !== action.payload,
+      )
+    },
+
+    searchItems(state, action: PayloadAction<string>) {
+      state.status = TableFetchStatusEnum.LOADING
+
+      if (!action.payload.length) {
+        state.displayedItems = state.items
+
+        state.status = TableFetchStatusEnum.SUCCESS
+
+        return
+      }
+
+      const formattedArray = state.items.filter((el: ITableSliceItems) => {
+        return el.title
+          .toLocaleLowerCase()
+          .includes(action.payload.toLocaleLowerCase())
+      })
+
+      state.displayedItems = formattedArray
+
+      state.status = TableFetchStatusEnum.SUCCESS
     },
   },
   extraReducers: builder => {
@@ -70,6 +95,7 @@ const tableSlice = createSlice({
         (state, action: PayloadAction<ITableSliceItems[]>) => {
           state.status = TableFetchStatusEnum.SUCCESS
           state.items = action.payload
+          state.displayedItems = state.items
         },
       )
       .addCase(fetchTable.rejected, state => {
@@ -79,9 +105,10 @@ const tableSlice = createSlice({
   },
 })
 
-export const { removeItem } = tableSlice.actions
+export const { removeItem, searchItems } = tableSlice.actions
 
-export const tableItemsSelector = (state: RootState) => state.table.items
+export const tableItemsSelector = (state: RootState) =>
+  state.table.displayedItems
 export const tableStatusSelector = (state: RootState) => state.table.status
 export const tablePaginationSizeSelector = (state: RootState) =>
   state.table.pagination

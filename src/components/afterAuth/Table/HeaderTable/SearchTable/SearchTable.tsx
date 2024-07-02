@@ -7,13 +7,14 @@ import debounce from "lodash.debounce"
 import { CloseOutlined } from "@ant-design/icons"
 
 import { setSearchValue } from "../../../../../app/slices/filterSlice"
+import { searchItems } from "../../../../../app/slices/tableSlice"
 
 export const SearchTable = () => {
   const dispatch = useAppDispatch()
   const [value, setValue] = useState<string>("")
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const onClickClear = (event: React.MouseEvent<SVGAElement>) => {
+  const onClickClear = (event: any) => {
     dispatch(setSearchValue(""))
     setValue("")
     inputRef.current.focus()
@@ -23,8 +24,9 @@ export const SearchTable = () => {
   const updateSearchValue = useCallback(
     debounce(str => {
       dispatch(setSearchValue(str))
+      dispatch(searchItems(str))
       console.log(str)
-    }, 1000),
+    }, 300),
     [],
   )
 
@@ -36,7 +38,7 @@ export const SearchTable = () => {
   return (
     <Styled.InputFormWrapper>
       <Input
-        ref={inputRef}
+        // ref={inputRef}
         value={value}
         onChange={onChangeInput}
         placeholder="Поиск товара..."
