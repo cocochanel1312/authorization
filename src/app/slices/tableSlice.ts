@@ -15,8 +15,12 @@ export interface ITableSliceItems {
   image: string
 }
 
-interface IParamsType {
-  search: string
+interface IModalInterface {
+  title: string
+  price: string
+  category: string
+  description: string
+  image: string
 }
 
 export const fetchTable = createAsyncThunk(
@@ -40,6 +44,7 @@ interface InitialStateTableSlice {
   displayedItems: ITableSliceItems[]
   status: TableFetchStatusEnum
   pagination: TablePaginationConfig
+  modalButton: IModalInterface[]
 }
 
 const initialState: InitialStateTableSlice = {
@@ -50,6 +55,7 @@ const initialState: InitialStateTableSlice = {
     defaultCurrent: 1,
     totalBoundaryShowSizeChanger: 1,
   },
+  modalButton: [],
 }
 
 const tableSlice = createSlice({
