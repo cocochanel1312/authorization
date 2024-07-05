@@ -16,14 +16,13 @@ import type { ITableSliceItems } from "../../../app/slices/tableSlice"
 
 import NoDataPlug from "../../shared/components/NoDataPlug/NoDataPlug"
 import HeaderTable from "../Table/HeaderTable/HeaderTable"
-import { searchValueSelector } from "../../../app/slices/filterSlice"
+
 
 const TableSettings: React.FC<ITableSliceItems> = () => {
   const data = useAppSelector(tableItemsSelector)
   const fetchStatus = useAppSelector(tableStatusSelector)
   const tablePaginationSize = useAppSelector(tablePaginationSizeSelector)
-  const searchValue = useAppSelector(searchValueSelector)
-  const isSearch = useRef(false)
+
 
   const dispatch = useAppDispatch()
 
