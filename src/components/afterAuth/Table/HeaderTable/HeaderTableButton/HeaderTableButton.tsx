@@ -1,4 +1,4 @@
-import { Button, Input, Modal } from "antd"
+import { Button, Input, message, Modal, Spin } from "antd"
 import { useState } from "react"
 
 import Styled from "./HeaderTableButton.styles"
@@ -10,21 +10,45 @@ import {
   setCategory,
   setDescription,
   setImage,
+  fetchAddModalItem,
+  setFetchingStatus,
+  tableModalStatusSelector,
+  // tableModalStatusSelector,
+  // TableModalFetchStatusEnum,
 } from "../../../../../app/slices/tableModalSlice"
 
 export const HeaderTableButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [messageApi, contextHolder] = message.useMessage()
   const dispatch = useAppDispatch()
+
+  // const fetchModalStatus = useAppSelector(tableModalStatusSelector)
   const { title, price, category, description, image } = useAppSelector(
     state => state.tableModal,
   )
+
+  const isFetchingModal = useAppSelector(tableModalStatusSelector)
 
   const showModal = () => {
     setIsModalOpen(true)
   }
 
+  const info = () => {
+    messageApi.info("Товар успешно добавлен")
+  }
+
   const handleOk = () => {
-    setIsModalOpen(false)
+    dispatch(setFetchingStatus(true))
+    setTimeout(() => {
+      dispatch(
+        fetchAddModalItem({ title, price, category, description, image }),
+      )
+      dispatch(setFetchingStatus(false))
+    }, 2000)
+    setTimeout(() => {
+      info()
+      setIsModalOpen(false)
+    }, 5000)
   }
 
   const handleCancel = () => {
@@ -41,6 +65,7 @@ export const HeaderTableButton = () => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        loading={isFetchingModal ? <Spin /> : null}
       >
         <Input
           style={{ marginBottom: 10 }}
