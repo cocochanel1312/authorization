@@ -58,6 +58,10 @@ const tableSlice = createSlice({
       )
     },
 
+    addItem(state, action: PayloadAction<ITableSliceItems>) {
+      state.displayedItems.push(action.payload)
+    },
+
     searchItems(state, action: PayloadAction<string>) {
       state.status = TableFetchStatusEnum.LOADING
 
@@ -101,7 +105,7 @@ const tableSlice = createSlice({
   },
 })
 
-export const { removeItem, searchItems } = tableSlice.actions
+export const { removeItem, searchItems, addItem } = tableSlice.actions
 
 export const tableItemsSelector = (state: RootState) =>
   state.table.displayedItems

@@ -2,6 +2,7 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 import type { RootState } from "../store"
+import type { ITableSliceItems } from "./tableSlice"
 
 interface InitialTableModalSlice {
   title: string
@@ -10,6 +11,7 @@ interface InitialTableModalSlice {
   description: string
   image: string
   fetchingStatus: boolean
+  responseItem: ITableSliceItems
 }
 
 interface IParamasTableFetchModal {
@@ -24,16 +26,17 @@ export const fetchAddModalItem = createAsyncThunk(
   "tableModal/fetchTabelModalStatus",
   async (params: IParamasTableFetchModal) => {
     const { title, price, category, description, image } = params
-    const res = await axios
-      .post<InitialTableModalSlice[]>("https://fakestoreapi.com/products", {
+    const res = await axios.post<ITableSliceItems>(
+      "https://fakestoreapi.com/products",
+      {
         title: title,
         price: price,
         description: description,
         image: image,
         category: category,
-      })
-      .then(res => res.data)
-    console.log(res)
+      },
+    )
+    return res.data
   },
 )
 // export enum TableModalFetchStatusEnum {
@@ -49,6 +52,14 @@ const initialState: InitialTableModalSlice = {
   description: "",
   image: "",
   fetchingStatus: false,
+  responseItem: {
+    id: 0,
+    title: "",
+    price: "",
+    category: "",
+    description: "",
+    image: "",
+  },
 }
 
 export const tableModalSlice = createSlice({
@@ -74,18 +85,14 @@ export const tableModalSlice = createSlice({
       state.fetchingStatus = action.payload
     },
   },
-  // extraReducers: builder => {
-  //   builder
-  //     .addCase(fetchAddModalItem.pending, state => {
-  //       state.status = TableModalFetchStatusEnum.LOADING
-  //     })
-  //     .addCase(fetchAddModalItem.fulfilled, state => {
-  //       state.status = TableModalFetchStatusEnum.SUCCESS
-  //     })
-  //     .addCase(fetchAddModalItem.rejected, state => {
-  //       state.status = TableModalFetchStatusEnum.ERROR
-  //     })
-  // },
+  extraReducers: builder => {
+    builder.addCase(
+      fetchAddModalItem.fulfilled,
+      (state, action: PayloadAction<ITableSliceItems>) => {
+        state.responseItem = action.payload
+      },
+    )
+  },
 })
 
 export const {
@@ -99,5 +106,8 @@ export const {
 
 export const tableModalStatusSelector = (state: RootState) =>
   state.tableModal.fetchingStatus
+
+export const modalResponseItemSelector = (state: RootState) =>
+  state.tableModal.responseItem
 
 export default tableModalSlice.reducer

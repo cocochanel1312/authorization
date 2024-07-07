@@ -13,9 +13,11 @@ import {
   fetchAddModalItem,
   setFetchingStatus,
   tableModalStatusSelector,
+  modalResponseItemSelector,
   // tableModalStatusSelector,
   // TableModalFetchStatusEnum,
 } from "../../../../../app/slices/tableModalSlice"
+import { addItem } from "../../../../../app/slices/tableSlice"
 
 export const HeaderTableButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -28,6 +30,7 @@ export const HeaderTableButton = () => {
   )
 
   const isFetchingModal = useAppSelector(tableModalStatusSelector)
+  const modalResponseItem = useAppSelector(modalResponseItemSelector)
 
   const showModal = () => {
     setIsModalOpen(true)
@@ -35,22 +38,26 @@ export const HeaderTableButton = () => {
 
   const info = () => {
     messageApi.info("Товар успешно добавлен")
-    console.log("Функция отрабатывает", messageApi.info)
   }
 
   const handleOk = () => {
     dispatch(setFetchingStatus(true))
+
     setTimeout(() => {
       dispatch(
         fetchAddModalItem({ title, price, category, description, image }),
       )
+      dispatch(addItem(modalResponseItem))
+
       dispatch(setFetchingStatus(false))
+
       dispatch(setTitle(""))
       dispatch(setPrice(""))
       dispatch(setCategory(""))
       dispatch(setDescription(""))
       dispatch(setImage(""))
     }, 800)
+
     setTimeout(() => {
       info()
       setIsModalOpen(false)
