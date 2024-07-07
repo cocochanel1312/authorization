@@ -38,7 +38,7 @@ interface InitialStateTableSlice {
   pagination: TablePaginationConfig
 }
 
-const initialState: InitialStateTableSlice = {
+export const initialState: InitialStateTableSlice = {
   items: [],
   displayedItems: [],
   status: TableFetchStatusEnum.LOADING,
@@ -48,7 +48,7 @@ const initialState: InitialStateTableSlice = {
   },
 }
 
-const tableSlice = createSlice({
+export const tableSlice = createSlice({
   name: "table",
   initialState,
   reducers: {
