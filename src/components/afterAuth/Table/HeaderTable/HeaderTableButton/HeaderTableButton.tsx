@@ -35,6 +35,7 @@ export const HeaderTableButton = () => {
 
   const info = () => {
     messageApi.info("Товар успешно добавлен")
+    console.log("Функция отрабатывает", messageApi.info)
   }
 
   const handleOk = () => {
@@ -44,11 +45,16 @@ export const HeaderTableButton = () => {
         fetchAddModalItem({ title, price, category, description, image }),
       )
       dispatch(setFetchingStatus(false))
-    }, 2000)
+      dispatch(setTitle(""))
+      dispatch(setPrice(""))
+      dispatch(setCategory(""))
+      dispatch(setDescription(""))
+      dispatch(setImage(""))
+    }, 800)
     setTimeout(() => {
       info()
       setIsModalOpen(false)
-    }, 5000)
+    }, 1000)
   }
 
   const handleCancel = () => {
@@ -57,6 +63,7 @@ export const HeaderTableButton = () => {
 
   return (
     <Styled.HeaderTableButtonWrapper>
+      {contextHolder}
       <Button type="primary" onClick={showModal}>
         Adding Item
       </Button>
