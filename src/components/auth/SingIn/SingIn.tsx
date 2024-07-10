@@ -37,6 +37,8 @@ const SingIn: React.FC = () => {
 
   return (
     <Styled.FormWrapper>
+      <Styled.FormH>Sign In</Styled.FormH>
+
       <Form
         name="basic"
         labelCol={{
@@ -45,16 +47,13 @@ const SingIn: React.FC = () => {
         wrapperCol={{
           span: 16,
         }}
-        style={{
-          maxWidth: 600,
-        }}
+        style={{}}
         initialValues={{
           remember: true,
         }}
         onFinish={logIn}
         autoComplete="off"
       >
-        <Styled.FormH>Sign In</Styled.FormH>
         <Form.Item
           label="Email"
           name="email"

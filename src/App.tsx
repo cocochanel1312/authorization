@@ -1,6 +1,6 @@
 import "./App.css"
 import { Navigate, Route, Routes } from "react-router-dom"
-import SingInPage from "./pages/Authorization/SignInPage"
+import SingInPage from "./pages/Authorization/SignInPage/SignInPage"
 import SingUpPage from "./pages/Authorization/SingUpPage"
 import PrivateRoute from "./pages/Authorization/PrivateRoute"
 import Layout from "./components/layout/Layout"
