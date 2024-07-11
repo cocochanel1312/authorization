@@ -37,10 +37,9 @@ const SingIn: React.FC = () => {
 
   return (
     <Styled.FormWrapper>
-      <Styled.FormH>Sign In</Styled.FormH>
-
       <Form
         name="basic"
+        size="large"
         labelCol={{
           span: 8,
         }}
@@ -54,9 +53,12 @@ const SingIn: React.FC = () => {
         onFinish={logIn}
         autoComplete="off"
       >
+        <Styled.FormH>Sign In</Styled.FormH>
         <Form.Item
-          label="Email"
           name="email"
+          style={{
+            width: "600px",
+          }}
           rules={[
             {
               required: true,
@@ -71,7 +73,6 @@ const SingIn: React.FC = () => {
           />
         </Form.Item>
         <Form.Item
-          label="Password"
           name="password"
           rules={[
             {
@@ -94,16 +95,22 @@ const SingIn: React.FC = () => {
         >
           {authorized ? (
             <Link to="/">
-              <Button type="primary" htmlType="submit">
-                Submit
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ width: "400px" }}
+              >
+                Далее
               </Button>
             </Link>
           ) : (
             <Button type="primary" htmlType="submit">
-              Submit
+              Далее
             </Button>
           )}
         </Form.Item>
+        <Styled.FormH2>Об учетной записи </Styled.FormH2>
+        <Styled.FormH2>Проблемы со входном?</Styled.FormH2>
         <Link to="/SingUp">
           <Form.Item
             wrapperCol={{
@@ -111,8 +118,8 @@ const SingIn: React.FC = () => {
               span: 16,
             }}
           >
-            <Button type="primary" danger>
-              Create Account
+            <Button type="primary">
+              Создать учетную запись
             </Button>
           </Form.Item>
         </Link>

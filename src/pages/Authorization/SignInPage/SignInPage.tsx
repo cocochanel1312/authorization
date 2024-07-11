@@ -4,7 +4,7 @@ import Styled from "./SignInPage.styles"
 const SignInPage = () => {
   return (
     <Styled.BackgroundWrapper>
-      <Styled.LogoContainer>Logo</Styled.LogoContainer>
+      <Styled.LogoContainer></Styled.LogoContainer>
       <Styled.SignInContainer>
         <SingIn />
       </Styled.SignInContainer>
