@@ -104,7 +104,7 @@ const SingIn: React.FC = () => {
               </Button>
             </Link>
           ) : (
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" style={{ width: "400px" }}>
               Далее
             </Button>
           )}
@@ -118,7 +118,7 @@ const SingIn: React.FC = () => {
               span: 16,
             }}
           >
-            <Button type="primary">
+            <Button type="primary" style={{ width: "450px" }}>
               Создать учетную запись
             </Button>
           </Form.Item>
