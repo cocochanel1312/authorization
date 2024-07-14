@@ -18,6 +18,7 @@ const SingIn: React.FC = () => {
   const { email, password, error, authorized } = useAppSelector(
     state => state.signIn,
   )
+  navigate=useNavigate()
 
   function logIn() {
     if (!authorized)
@@ -28,6 +29,7 @@ const SingIn: React.FC = () => {
           dispatch(setEmail(""))
           dispatch(setPassword(""))
           dispatch(setAuthorized(true))
+          navigate("/")
         })
         .catch(error => {
           console.log(error.message)
@@ -94,7 +96,6 @@ const SingIn: React.FC = () => {
           }}
         >
           {authorized ? (
-            <Link to="/">
               <Button
                 type="primary"
                 htmlType="submit"
@@ -102,7 +103,6 @@ const SingIn: React.FC = () => {
               >
                 Далее
               </Button>
-            </Link>
           ) : (
             <Button type="primary" htmlType="submit" style={{ width: "400px" }}>
               Далее
