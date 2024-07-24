@@ -1,7 +1,7 @@
 import { auth } from "../../../firebase"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { Button, Form, Input } from "antd"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
 
 import Styled from "./SignIn.styles"
@@ -18,6 +18,7 @@ const SingIn: React.FC = () => {
   const { email, password, error, authorized } = useAppSelector(
     state => state.signIn,
   )
+  const navigate = useNavigate()
 
   function logIn() {
     if (!authorized)
@@ -28,6 +29,7 @@ const SingIn: React.FC = () => {
           dispatch(setEmail(""))
           dispatch(setPassword(""))
           dispatch(setAuthorized(true))
+          navigate("/")
         })
         .catch(error => {
           console.log(error.message)
@@ -94,7 +96,6 @@ const SingIn: React.FC = () => {
           }}
         >
           {authorized ? (
-            <Link to="/">
               <Button
                 type="primary"
                 htmlType="submit"
@@ -102,7 +103,6 @@ const SingIn: React.FC = () => {
               >
                 Далее
               </Button>
-            </Link>
           ) : (
             <Button type="primary" htmlType="submit" style={{ width: "400px" }}>
               Далее
