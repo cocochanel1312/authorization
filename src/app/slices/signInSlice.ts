@@ -1,6 +1,6 @@
 import type { PayloadAction } from "@reduxjs/toolkit"
 import { createSlice } from "@reduxjs/toolkit"
-import { RootState } from "../store"
+import type { RootState } from "../store"
 
 interface InitialStateSignInSlice {
   email: string
@@ -34,6 +34,8 @@ export const signInSlice = createSlice({
     },
   },
 })
+
+export const isAuthorizedChecker = (state: RootState) => state.signIn.authorized
 
 export const { setEmail, setPassword, setError, setAuthorized } =
   signInSlice.actions

@@ -4,6 +4,7 @@ import signUp from "./slices/signUpSlice"
 import signIn from "./slices/signInSlice"
 import table from "./slices/tableSlice"
 import tableModal from "./slices/tableModalSlice"
+import filter from "./slices/filterSlice"
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     signIn,
     table,
     tableModal,
+    filter,
   },
 })
 

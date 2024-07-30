@@ -7,7 +7,7 @@ import Layout from "./components/layout/Layout"
 import TablePage from "./pages/TablePage"
 import NavigationTest from "./components/afterAuth/NavigationTest/NavigationTest"
 import Settings from "./components/afterAuth/Settings/Settings"
-import Messages from "./components/afterAuth/Messages/Messages"
+import MessagesPage from "./pages/MessagesPage"
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
             <Route path="/" element={<Navigate to="table" replace />} />
             <Route path="table" element={<TablePage />} />
             <Route path="navigationtest" element={<NavigationTest />} />
-            <Route path="messages" element={<Messages />} />
+            <Route path="messages" element={<MessagesPage />} />
             <Route path="settings" element={<Settings />} />
           </Route>
         </Route>

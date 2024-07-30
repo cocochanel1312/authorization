@@ -96,13 +96,9 @@ const SingIn: React.FC = () => {
           }}
         >
           {authorized ? (
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ width: "400px" }}
-              >
-                Далее
-              </Button>
+            <Button type="primary" htmlType="submit" style={{ width: "400px" }}>
+              Далее
+            </Button>
           ) : (
             <Button type="primary" htmlType="submit" style={{ width: "400px" }}>
               Далее
